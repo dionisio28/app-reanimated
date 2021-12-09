@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback, useState } from 'react'
 import {
   Text,
   Box,
@@ -10,10 +10,17 @@ import {
   useColorModeValue,
 } from 'native-base'
 import ThemeToggle from '../components/theme-toggle'
-import { LogBox } from 'react-native'
-// import { Container } from './styles';
+import { LogBox, Pressable } from 'react-native'
+import AnimatedCheckbox from '../components/animated-checkbox/animated-checkbox'
 
 const MainScreen: React.FC = () => {
+  const [checked, setChecked] = useState(false)
+
+  const handlePressCheckbox = useCallback(() => {
+    setChecked(prev => !prev);
+  }, [])
+
+
   return (
     <Center
       _dark={{ bg: 'blueGray.900' }}
@@ -22,10 +29,19 @@ const MainScreen: React.FC = () => {
       flex={1}
     >
       <VStack space={5} alignItems={'center'}>
-        <Box p={10} bg={useColorModeValue('red.50', 'yellow.500')}>
+      <Pressable onPress={handlePressCheckbox} style={{  width: 64,
+    height: 64}}>
+        <AnimatedCheckbox
+          checked={checked}
+          highlightColor="#4444ff"
+          checkmarkColor="#ffffff"
+          boxOutlineColor="#4444ff"
+        />
+      </Pressable>
+        <Box p={10} bg={useColorModeValue('red.500', 'yellow.500')}>
           <Text> Hello </Text>
         </Box>
-        <ThemeToggle/>
+        <ThemeToggle />
       </VStack>
     </Center>
   )
